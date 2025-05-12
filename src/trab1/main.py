@@ -4,8 +4,12 @@ from utils.visualizador import visualizar_mesh
 
 def main():
     if len(sys.argv) < 2:
-        print("Uso: python main.py <arquivo.obj>")
+        print("Uso: python main.py <arquivo.obj> [--no-label]")
         return
+
+    no_label = "--no-label" in sys.argv
+    if no_label:
+        sys.argv.remove("--no-label")  
 
     mesh = WingedEdgeMesh()
     try:
@@ -34,7 +38,7 @@ def main():
                 v = int(input("ID do vértice: "))
                 faces = mesh.faces_by_vertice(v)
                 print(faces)
-                visualizar_mesh(mesh, destaque={'faces': faces, 'vertices': [v]})
+                visualizar_mesh(mesh, destaque={'faces': faces, 'vertices': [v]}, show_labels=not no_label)
             except ValueError as e:
                 print(f"Erro: {e}")
 
@@ -43,7 +47,7 @@ def main():
                 v = int(input("ID do vértice: "))
                 arestas = mesh.arestas_by_vertice(v)
                 print(arestas)
-                visualizar_mesh(mesh, destaque={'arestas': arestas, 'vertices': [v]})
+                visualizar_mesh(mesh, destaque={'arestas': arestas, 'vertices': [v]}, show_labels=not no_label)
             except ValueError as e:
                 print(f"Erro: {e}")
 
@@ -53,7 +57,7 @@ def main():
                 v2 = int(input("Vértice 2: "))
                 faces = mesh.faces_by_aresta(v1, v2)
                 print(faces)
-                visualizar_mesh(mesh, destaque={'faces': faces, 'arestas': [(v1, v2), (v2, v1)], 'vertices': [v1, v2]})
+                visualizar_mesh(mesh, destaque={'faces': faces, 'arestas': [(v1, v2), (v2, v1)], 'vertices': [v1, v2]}, show_labels=not no_label)
             except ValueError as e:
                 print(f"Erro: {e}")
 
@@ -62,7 +66,7 @@ def main():
                 f = int(input("ID da face: "))
                 arestas = mesh.arestas_by_face(f)
                 print(arestas)
-                visualizar_mesh(mesh, destaque={'arestas': arestas, 'faces': [f]})
+                visualizar_mesh(mesh, destaque={'arestas': arestas, 'faces': [f]}, show_labels=not no_label)
             except ValueError as e:
                 print(f"Erro: {e}")
 
@@ -71,14 +75,13 @@ def main():
                 f = int(input("ID da face: "))
                 faces = mesh.adjacent_faces(f)
                 print(faces)
-                visualizar_mesh(mesh, destaque={'faces': list(faces) + [f]})
+                visualizar_mesh(mesh, destaque={'faces': list(faces) + [f]}, show_labels=not no_label)
             except ValueError as e:
                 print(f"Erro: {e}")
 
-
         elif opcao == '6':
             try:
-                visualizar_mesh(mesh)
+                visualizar_mesh(mesh, show_labels=not no_label)
             except Exception as e:
                 print(f"Erro ao visualizar: {e}")
         else:

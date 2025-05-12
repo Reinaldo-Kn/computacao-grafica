@@ -82,7 +82,7 @@ class WingedEdgeMesh:
                         else:
                             a.left_face = face
 
-                
+                # definir o proximo e o anterior de cada aresta
                 for i in range(n):
                     _, _, atual = arestas_da_face[i] # usando apenas 'a'
                     _, _, prox = arestas_da_face[(i + 1) % n]

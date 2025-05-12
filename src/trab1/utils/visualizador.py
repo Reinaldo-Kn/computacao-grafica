@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import numpy as np
 
-def visualizar_mesh(mesh, destaque=None):
+def visualizar_mesh(mesh, destaque=None, show_labels=True):
     if destaque is None:
         destaque = {}
     fig = plt.figure()
@@ -31,7 +31,8 @@ def visualizar_mesh(mesh, destaque=None):
         ax.add_collection3d(poly)
 
         centro = np.mean(coords, axis=0)
-        ax.text(*centro, f'F{face_id}', color='black', fontsize=10)
+        if show_labels:
+            ax.text(*centro, f'F{face_id}', color='black', fontsize=10)
 
     # Plotar arestas
     plotadas = set()
@@ -51,7 +52,8 @@ def visualizar_mesh(mesh, destaque=None):
         pos = vert.position
         cor = cor_vertices_destaque if destaque and v_id in destaque.get('vertices', []) else cor_vertices
         ax.scatter(*pos, color=cor)
-        ax.text(*pos, f'V{v_id}', fontsize=8, color='black')
+        if show_labels:
+            ax.text(*pos, f'V{v_id}', fontsize=8, color='black')
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')
