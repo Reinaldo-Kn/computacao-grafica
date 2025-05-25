@@ -1,6 +1,8 @@
 import sys
 from utils.estrutura import WingedEdgeMesh
 from utils.visualizador import visualizar_mesh
+from transformacoes import processar_transformacoes_interativo, salvar_mesh_obj
+import matplotlib.pyplot as plt
 
 def main():
     if len(sys.argv) < 2:
@@ -27,6 +29,7 @@ def main():
         print("4: Arestas que compartilham uma face")
         print("5: Faces adjacentes a uma face")
         print("6: Visualizar malha")
+        print("7: Transformações")
         print("0: Sair")
 
         opcao = input("Opção: ")
@@ -84,8 +87,41 @@ def main():
                 visualizar_mesh(mesh, show_labels=not no_label)
             except Exception as e:
                 print(f"Erro ao visualizar: {e}")
-        else:
-            print("Opção inválida.")
+# NO SEU elif das opções, ADICIONE APENAS ISTO:
+        elif opcao == '7':
+            # Todo o processamento fica no transformacoes.py
+            mesh_transformada, matriz, sucesso = processar_transformacoes_interativo(mesh)
+            
+            if sucesso:
+                # Perguntar se quer visualizar
+                visualizar = input("\n👁️ Visualizar resultado? (s/n): ").lower().startswith('s')
+                
+                if visualizar:
+                    opcao_vis = input("\n📺 Visualizar:\n1 - Apenas transformado\n2 - Original e transformado\nOpção: ")
+                    
+                    if opcao_vis == '1':
+                        # Apenas mesh transformada
+                        visualizar_mesh(mesh_transformada, show_labels=not no_label)
+                    elif opcao_vis == '2':
+                        # Comparação lado a lado - usar matplotlib diretamente
+                        visualizar_comparacao_simples(mesh, mesh_transformada, not no_label)
+                    else:
+                        print("❌ Opção inválida!")
+                        
+                # Perguntar se quer salvar
+                salvar = input("\n💾 Salvar mesh transformada? (s/n): ").lower().startswith('s')
+                if salvar:
+                    nome_arquivo = input("📝 Nome do arquivo (sem extensão): ")
+                    salvar_mesh_obj(mesh_transformada, f"{nome_arquivo}.obj")
 
+# ADICIONE ESTA FUNÇÃO SIMPLES TAMBÉM NO main.py:
+def visualizar_comparacao_simples(mesh_original, mesh_transformada, show_labels):
+    """Visualiza mesh original e transformada em janelas separadas"""
+    
+    print("🔍 Visualizando mesh original...")
+    visualizar_mesh(mesh_original, show_labels=show_labels)
+    
+    print("🔍 Visualizando mesh transformada...")
+    visualizar_mesh(mesh_transformada, show_labels=show_labels)
 if __name__ == "__main__":
     main()
