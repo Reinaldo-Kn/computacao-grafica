@@ -175,13 +175,8 @@ def aplicar_transformacao(vertices, matriz_transformacao):
 
 def decompor_matriz_transformacao(matriz):
     """
-    Decompõe uma matriz de transformação 4x4 em seus componentes básicos
+    Decompoe uma matriz de transformação 4x4 em seus componentes básicos
     
-    Args:
-        matriz: Matriz 4x4 de transformação
-        
-    Returns:
-        dict: Dicionário com translação, escala e rotação extraídas
     """
     # Extrair translação
     translacao = matriz[:3, 3]
