@@ -53,7 +53,7 @@ void myinit(void)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0.0, 640.0, 0.0, 480.0);
-	glClearColor(0.127, 0.252, 0.0, 0.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
 	initGame();
 	initBlocks();
 	play = TRUE;
